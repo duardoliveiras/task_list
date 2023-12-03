@@ -13,12 +13,12 @@
 
         <div>
             <label for="description">Description</label>
-            <textarea name="description id="description" rows="5"></textarea>
+            <textarea name="description" id="description" rows="5"></textarea>
         </div>
 
         <div>
             <label for="longDescription">Long Description</label>
-            <textarea name="longDescription id="longDescription" rows="10"></textarea>
+            <textarea name="longDescription" id="longDescription" rows="10"></textarea>
         </div>
 
         <button type="submit">Create Task</button>

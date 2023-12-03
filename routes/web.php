@@ -25,7 +25,21 @@ Route::get('/tasks', function (){
 })->name('tasks.index');
 
 Route::post('/tasks', function (Request $request){
-   dd($request->all());
+    $data = $request->validate([
+        'title' => 'required|max:255',
+        'description' => 'required',
+        'longDescription' => 'required'
+    ]);
+
+    $task = new Task;
+
+    $task->title = $data['title'];
+    $task->description = $data['description'];
+    $task->longDescription = $data['longDescription'];
+
+    $task->save();
+
+    return redirect()->route('tasks.show', ['id' => $task->id]); 
 
 })->name('tasks.store');
 
