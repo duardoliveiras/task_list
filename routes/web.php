@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,6 +23,7 @@ Class Task{
         public bool $completed,
         public string $createdAt,
         public ?string $completedAt
+        // The '?' symbol means that the variable can be null
     ){ 
 
     }
@@ -72,9 +74,25 @@ Route::get('/tasks', function () use ($tasks){
     ]);
 })->name('tasks.index');
 
-Route::get('/tasks/{id}', function ($id) {
-    return 'Task ' . $id;
-})->name('tasks.view');
+Route::get('/tasks/{id}', function ($id) use($tasks) {
+
+    // To find the first element in the array that satisfies the condition (id of the task)
+    $task = collect($tasks)->firstWhere('id', $id);
+
+    // If the task does not exist, return a 404 error
+    if(!$task){
+        abort(Response::HTTP_NOT_FOUND);
+    }
+
+    return view('show', [
+        'task' => $task
+    ]);
+    
+})->name('tasks.show');
+
+Route::get('/', function() {
+    return redirect()->route('tasks.index');
+});
 
 Route::fallback(function () {
     return 'Dont find';
